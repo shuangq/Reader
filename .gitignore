@@ -1,0 +1,13 @@
+# General
+.DS_Store
+
+# VScode
+.vscode/*
+
+# Dependency directories
+**/node_modules/
+
+# Sass
+**/.sass-cache/
+**/*.css.map
+
