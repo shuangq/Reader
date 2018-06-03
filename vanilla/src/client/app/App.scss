@@ -11,28 +11,28 @@ body {
 
 body {
     font-family: $font-text;
-    background-color: $col-bg;
     margin-top: $nav-height;
+    font-size: 16px;
 }
 
 p {
-    @include for-size(phone-only){
-        font-size: 14px;
-    }
+    font-size: 19px;
+    line-height: 1.4;
+}
 
-    @include for-size(desktop-up){
-        font-size: 16px;
-    }
+h1, h2, h3 {
+    font-family: $font-title;
+    line-height: 1.3;    
+}
+
+h2 {
+    margin: 0;
+    font-weight: 500;
 }
 
 h3 {
     margin: 0;
     line-height: 1.3;
-    font-size: 20px;
-
-    @include for-size(big-desktop-up) {
-        font-size: 28px;
-    }
 }
 
 
@@ -44,15 +44,15 @@ h3 {
     clear: both;
 }
 .container {
-    max-width: 70%;
+    max-width: 90%;
     margin: 0 auto;
 
     @include for-size(tablet-landscape-up) {
         max-width: 80%;
     }
 
-    @include for-size(phone-only) {
-        max-width: 90%;
+    @include for-size(big-desktop-up) {
+        max-width: 70%;
     }
 }
 
@@ -76,9 +76,9 @@ h3 {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        left: 3%;
-        height: 2.2rem;
-        width: 2.5rem;
+        left: 5%;
+        height: 2em;
+        width: 2.5em;
         box-sizing: border-box;
         vertical-align: middle;
         display: flex;
@@ -113,18 +113,19 @@ h3 {
 }
 
 .drawer {
-    width: 20%;
+    width: 50%;
 
-    @include for-size(phone-only) {
-        width: 50%;
+    @include for-size(desktop-up) {
+        width: 20%;
     }
+
     height: 100%;
     background-color: $col-primary;
     box-shadow: 0px 1px 10px 1px rgba(0, 0, 0, .1);
     .tab {
         display: block;
-        height: $nav-height;
-        line-height: $nav-height;
+        height: 4em;
+        line-height: 4em;
         color: #fff;
         text-align: center;
         text-decoration: none;
@@ -150,33 +151,41 @@ h3 {
     z-index: -1; // avoid collapsing when clicking on the drawer
 }
 
+/* Home */
+.home{
+    min-height: 100vh;
+    background-color: $col-bg;    
+}
+
 /* List item */
 
 .item-container {
     display: inline-block;
     box-sizing: border-box;
-    width: 33.3%;
-    padding: 1rem;
+    width: 100%;
+    padding: 1em;
     cursor: pointer;
 
     &:hover .title {
         color: $col-primary;
     }
 
-    @include for-size(phone-only) {
-        width: 100%;
+    @include for-size (tablet-portrait-up) {
+        width: 50%;
+    }
+
+    @include for-size(desktop-up) {
+        width: 33.3%;
     }
 }
 
 .item {
-    height: 17rem;
-    @include for-size(big-desktop-up) {
-        height: 23rem;
-    }    
+    height: 20em;   
     text-align: left;
     overflow: hidden;
     
     .item-header {
+        box-sizing: border-box;        
         height: 55%;
         overflow: hidden;
         &>img {
@@ -189,7 +198,7 @@ h3 {
     .item-footer {
         box-sizing: border-box;
         background-color: #fff;
-        padding: .5rem 1rem;
+        padding: .5em 1em;
     }
     .item-body {
         height: 25%;
@@ -197,7 +206,6 @@ h3 {
         .title {
             /* autoprefixer: off */
             display: -webkit-box;
-            font-family: $font-title;
             -webkit-line-clamp: 2;
             overflow: hidden;
             box-orient: vertical;
@@ -205,15 +213,15 @@ h3 {
         }
     }
     .item-footer {
-        height: 18%;
+        height: 20%;
         .info,
         .actions {
             display: inline-block;
+            vertical-align: middle;            
         }
         .info {
             width: 80%;
             display: inline-block;
-            vertical-align: middle;
 
             span {
                 display: block;
@@ -228,13 +236,16 @@ h3 {
         }
 
         .actions{
-            display: inline-block;
             width: 20%;
-            vertical-align: middle;
+
         }
         .btn-save{
             float: right;
-            font-size: 1.2rem;
+            font-size: 25px;
+            text-align: center;
+            line-height: 1.92em;
+            min-width: 1.92em;
+            min-height: 1.92em;
 
             &:hover{
                 color: $col-important;
@@ -243,3 +254,13 @@ h3 {
     }
 }
 
+/* Article */
+.article{
+    .header{
+        padding-top: .1em;
+    }
+
+    blockquote{
+        font-size: 1em;
+    }
+}

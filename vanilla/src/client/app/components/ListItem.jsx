@@ -2,12 +2,12 @@ import React from 'react';
 
 const ListItem = (props) => (
     <div className="item-container">
-        <div className="item">
+        <div className="item" onClick={() => {props.onItemClick(props.id)}}>
             <div className="item-header">
                 <img src={props.imgUrl} alt={props.title} />
             </div>
             <div className="item-body">
-                <h3 className="title" title={props.title}>{props.title}</h3>
+                <h2 className="title" title={props.title}>{props.title}</h2>
             </div>
             <div className="item-footer">
                 <div className="info">
@@ -15,7 +15,7 @@ const ListItem = (props) => (
                     <span className="date">{props.date}</span>
                 </div>
                 <div className="actions clearfix">
-                    <i class="btn-save far fa-heart" title="Saved article"></i>
+                    <i className="btn-save far fa-heart" title="Saved article"></i>
                 </div>
             </div>
         </div>

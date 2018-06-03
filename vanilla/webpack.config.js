@@ -5,7 +5,7 @@ const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
     mode: 'development',
-    entry: './src/client/app/index.js',
+    entry: ['babel-polyfill', './src/client/app/index.js'],
     output: {
         path: path.resolve(__dirname, './src/client/dist'),
         publicPath: '/'

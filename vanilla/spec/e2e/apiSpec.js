@@ -9,7 +9,7 @@ var Server = require('../../src/server/server.js').Server;
 var resetDatabase = require('../resetDatabase.js');
 var async = require('async');
 
-describe('api/articles', function () {
+describe('The API', function () {
 
     var server;
 
@@ -30,7 +30,7 @@ describe('api/articles', function () {
         })
     });
 
-    it('Should respond to a GET request a list of existing articles', function (done) {
+    it('Should return a list of existing articles when receiving a GET request at /api/articles/', function (done) {
         var expected = {
             "_items": [{
                 'ArticleId': 1,
@@ -76,4 +76,6 @@ describe('api/articles', function () {
             });
 
     });
+
+    
 });
