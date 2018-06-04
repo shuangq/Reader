@@ -15,7 +15,7 @@ var Server = function (port) {
 
     server.route('/api/articles', {
         GET: function (req, res) {
-            res.setHeader('Access-Control-Allow-Origin', 'localhost');
+            res.setHeader('Access-Control-Allow-Origin', '*');
             dbSession.fetchAll('SELECT ArticleId, Title, Author, Date, PosterUrl FROM Article ORDER BY Date', function (err, rows) {
                 if (err) {
                     console.log(err);
@@ -31,8 +31,8 @@ var Server = function (port) {
         GET: function (req, res) {
             var articleId = he.escape(req.uri.child());
 
-            res.setHeader('Access-Control-Allow-Origin', 'localhost');
-            dbSession.fetchRow('SELECT Body FROM Article WHERE ArticleId=?', [articleId], function (err, row) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            dbSession.fetchRow('SELECT Title, Author, Date, Body FROM Article WHERE ArticleId=?', [articleId], function (err, row) {
                 if (err) {
                     console.log(err);
                     res.status.internalServerError(err);

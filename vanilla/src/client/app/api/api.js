@@ -7,8 +7,32 @@ const API = axios.create({
 export function getArticles() {
     return API.get('articles', {
             'Content-Type': 'text/plain',
-        }).then(res => res.data._items)
+        }).then(res => {
+            if (res.status === 200) {
+                return {
+                    data: res.data._items,
+                };
+            }
+        })
         .catch(err => {
-            console.log(`Fetch articles failed: ${err}`);
+            return {
+                error: `Fetch articles failed: ${err}`
+            };
         });
+}
+
+export function getArticleContent(articleId) {
+    return API.get(`article/${articleId}`, {
+        'Content-Type': 'text/plain',
+    }).then(res => {
+        if (res.status === 200) {
+            return {
+                data: res.data
+            };
+        }
+    }).catch(err => {
+        return {
+            error: `Fetch article content failed: ${err}`
+        };
+    });
 }

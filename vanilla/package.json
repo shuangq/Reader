@@ -5,6 +5,7 @@
   "private": true,
   "entry point": "src/server/index.js",
   "scripts": {
+    "init-database": "READER_ENV=dev node ./spec/insertData.js",
     "dbmigrate-dev": "./node_modules/.bin/db-migrate up --env dev",
     "spec-dev": "READER_ENV=dev ./node_modules/.bin/jasmine-node --verbose --captureExceptions ./spec",
     "test": " rm /var/tmp/reader.test.sqlite && ./node_modules/.bin/db-migrate up --env test && READER_ENV=test ./node_modules/.bin/jasmine-node --verbose --captureExceptions ./spec",

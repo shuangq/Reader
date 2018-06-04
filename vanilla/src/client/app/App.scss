@@ -15,9 +15,15 @@ body {
     font-size: 16px;
 }
 
+article {
+    text-align: justify;
+}
+
 p {
     font-size: 19px;
     line-height: 1.4;
+    hyphens: auto;
+    word-break: break-all;
 }
 
 h1, h2, h3 {
