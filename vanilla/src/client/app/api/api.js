@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: 'http://localhost:8080/api/',
+    baseURL: 'http://localhost:3000/api/',
 });
 
 export function getArticles() {
@@ -10,7 +10,7 @@ export function getArticles() {
         }).then(res => {
             if (res.status === 200) {
                 return {
-                    data: res.data._items,
+                    data: res.data.articles,
                 };
             }
         })
@@ -27,7 +27,7 @@ export function getArticleContent(articleId) {
     }).then(res => {
         if (res.status === 200) {
             return {
-                data: res.data
+                data: res.data.article,
             };
         }
     }).catch(err => {
