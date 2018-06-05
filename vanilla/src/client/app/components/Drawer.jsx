@@ -32,6 +32,7 @@ const Drawer = (props) => (
                     ...stateMachine['hide'],
                     ...stateMachine[state]
                 }}>
+                    <Link to="/login" className="tab tab-0">Login</Link>
                     <Link to="/" className="tab tab-1">Home</Link>
                     <Link to="/saved" className="tab tab-2">Saved</Link>
                 </nav>
