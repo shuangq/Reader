@@ -5,6 +5,7 @@
 
 var http = require('http');
 var express = require('express');
+var path = require('path');
 var bodyParser = require('body-parser');
 var dbSession = require('../../src/server/dbSession.js');
 var he = require('he');
@@ -17,17 +18,24 @@ var Server = function (port) {
     server.use(bodyParser.json());
     server.use(bodyParser.urlencoded({
         extended: true
-    }));
+    })); 
+
+    server.use('/', express.static(path.join(__dirname, '../client/dist')));
+
+    server.get('/', function (req, res) {
+        res.set('Content-Type', 'text/html');
+        res.sendFile(__dirname + '/index.html');
+    });
 
     server.get('/api/articles', function (req, res) {
-        res.setHeader('Access-Control-Allow-Origin', '*');
         dbSession.fetchAll('SELECT ArticleId, Title, Author, Date, PosterUrl FROM Article ORDER BY Date', function (err, rows) {
             if (err) {
                 console.log(err);
-                res.status.internalServerError(err);
+                res.status(500).send(err);
             } else {
-                res.json({articles: rows});
-                res.status(200).send();
+                res.status(200).json({
+                    articles: rows
+                });
             }
         });
     });
@@ -35,16 +43,21 @@ var Server = function (port) {
     server.get('/api/article/:id', function (req, res) {
         var articleId = he.escape(req.params.id);
 
-        res.setHeader('Access-Control-Allow-Origin', '*');
         dbSession.fetchRow('SELECT Title, Author, Date, Body FROM Article WHERE ArticleId=?', [articleId], function (err, row) {
             if (err) {
                 console.log(err);
-                res.status.internalServerError(err);
+                res.status(500).send(err);
             } else {
-                res.json({article: row});
-                res.status(200).send();
+                res.status(200).json({
+                    article: row
+                });
             }
         });
+    });
+
+    // redirect unmatch route to homepage
+    server.get('*', function (req, res) {
+        res.redirect('/');
     });
 
     return http.createServer(server);
