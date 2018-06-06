@@ -11,3 +11,5 @@
 **/.sass-cache/
 **/*.css.map
 
+# Build files
+dist/
