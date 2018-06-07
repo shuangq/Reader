@@ -17,11 +17,11 @@ var resetDatabase = function (dbSession, callback) {
                     });
                 },
 
-                // function(callback) {
-                //     dbSession.remove('User', '1', function(err) {
-                //         callback(err);
-                //     });
-                // },
+                function(callback) {
+                    dbSession.remove('User', '1', function(err) {
+                        callback(err);
+                    });
+                },
 
                 function(callback) {
                     dbSession.remove('sqlite_sequence', '1', function(err){

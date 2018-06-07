@@ -9,8 +9,10 @@ var Server = require('../../src/server/server.js').Server;
 var resetDatabase = require('../resetDatabase.js');
 var async = require('async');
 var he = require('he');
+var bcrypt = require('bcrypt');
+var saltRounds = require('../secret.config.js').saltRounds;
 
-describe('The API', function () {
+describe('The article API', function () {
 
     var server;
 
@@ -30,7 +32,6 @@ describe('The API', function () {
             });
         })
     });
-
     // Get articles
     it('/api/articles [GET]: Should return a list of existing articles', function (done) {
         var expected = {
@@ -141,6 +142,184 @@ describe('The API', function () {
                 );
             });
     });
+});
 
+describe('/api/login', function () {
+    var server;
 
+    beforeEach(function (done) {
+        server = Server();
+        server.listen(8080, function (err) {
+            resetDatabase(dbSession, function () {
+                done(err);
+            });
+        });
+    });
+
+    afterEach(function (done) {
+        server.close(function () {
+            resetDatabase(dbSession, function () {
+                done();
+            });
+        })
+    });
+
+    it('Should return a token with a message "Login success" when the credential is correct', function (done) {
+        var expected = "Login success.";
+
+        async.waterfall([
+                function (callback) {
+                    var hash = bcrypt.hashSync('test', saltRounds);
+                    callback(null, hash);
+                },
+
+                function(hash, callback) {
+                    dbSession.insert('User', {
+                        'Email': 'test@test.com',
+                        'Password': hash,
+                        'FirstName': 'Test',
+                        'SurName': 'Test',
+                    }, function (err) {
+                        callback(err);
+                    });
+                }
+            ],
+            function (err, results) {
+                request.post({
+                        'url': 'http://localhost:8080/api/login',
+                        'json': true,
+                        'body': {
+                            'email': 'test@test.com',
+                            'password': 'test'
+                        },
+                    },
+                    function (err, res, body) {
+                        expect(res.statusCode).toBe(200);
+                        expect(body.message).toBe(expected);
+                        expect(body.token).toBeDefined();
+                        done();
+                    }
+                );
+            });
+    });
+
+    it('Should return a error when the credential is incorrect', function (done) {
+        var expected = {
+            "error": "Authentication failed. Password is not correct.",
+        };
+
+        async.waterfall([
+                function (callback) {
+                    var hash = bcrypt.hashSync('test', saltRounds);
+                    callback(null, hash);
+                },
+
+                function(hash, callback) {
+                    dbSession.insert('User', {
+                        'Email': 'test@test.com',
+                        'Password': hash,
+                        'FirstName': 'Test',
+                        'SurName': 'Test',
+                    }, function (err) {
+                        callback(err);
+                    });
+                }
+            ],
+            function (err, results) {
+                request.post({
+                        'url': 'http://localhost:8080/api/login',
+                        'json': true,
+                        'body': {
+                            'email': 'test@test.com',
+                            'password': 'test123'
+                        },
+                    },
+                    function (err, res, body) {
+                        expect(res.statusCode).toBe(401);
+                        expect(body).toEqual(expected);
+                        done();
+                    }
+                );
+            });
+    });
+
+    it('Should return a error when the email or password is missing', function (done) {
+        var expected = {
+            "error": "Authentication failed. Missing email or password.",
+        };
+
+        async.waterfall([
+                function (callback) {
+                    var hash = bcrypt.hashSync('test', saltRounds);
+                    callback(null, hash);
+                },
+
+                function(hash, callback) {
+                    dbSession.insert('User', {
+                        'Email': 'test@test.com',
+                        'Password': hash,
+                        'FirstName': 'Test',
+                        'SurName': 'Test',
+                    }, function (err) {
+                        callback(err);
+                    });
+                }
+            ],
+            function (err, results) {
+                request.post({
+                        'url': 'http://localhost:8080/api/login',
+                        'json': true,
+                        'body': {
+                            'email': 'test@test.com',
+                            'password': ''
+                        },
+                    },
+                    function (err, res, body) {
+                        expect(res.statusCode).toBe(401);
+                        expect(body).toEqual(expected);
+                        done();
+                    }
+                );
+            });
+    });
+
+    it('Should return a error when the email doesn\'t exist', function (done) {
+        var expected = {
+            "error": "Authentication failed. Email doesn't exist.",
+        };
+
+        async.waterfall([
+                function (callback) {
+                    var hash = bcrypt.hashSync('test', saltRounds);
+                    callback(null, hash);
+                },
+
+                function(hash, callback) {
+                    dbSession.insert('User', {
+                        'Email': 'test@test.com',
+                        'Password': hash,
+                        'FirstName': 'Test',
+                        'SurName': 'Test',
+                    }, function (err) {
+                        callback(err);
+                    });
+                }
+            ],
+            function (err, results) {
+                request.post({
+                        'url': 'http://localhost:8080/api/login',
+                        'json': true,
+                        'body': {
+                            'email': 'test123@test.com',
+                            'password': 'test'
+                        },
+                    },
+                    function (err, res, body) {
+                        expect(res.statusCode).toBe(401);
+                        expect(body).toEqual(expected);
+                        done();
+                    }
+                );
+            });
+    });
 });

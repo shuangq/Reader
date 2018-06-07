@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Transition from 'react-transition-group/Transition';
+import * as Auth from '../utils/auth';
 
 const duration = 200;
 
@@ -23,7 +24,10 @@ const stateMachine = {
     },
 };
 
-const Drawer = (props) => (
+const Drawer = (props) => {
+    const ifAuth = Auth.checkIfAuthenticated();
+
+    return (
     <Transition in={props.inProp} timeout={{enter: 0, exit: 500}} mountOnEnter unmountOnExit>
     {
         (state) => (
@@ -32,9 +36,10 @@ const Drawer = (props) => (
                     ...stateMachine['hide'],
                     ...stateMachine[state]
                 }}>
-                    <Link to="/login" className="tab tab-0">Login</Link>
+                    {!ifAuth && <Link to="/login" className="tab tab-0">Login</Link>}
                     <Link to="/" className="tab tab-1">Home</Link>
                     <Link to="/saved" className="tab tab-2">Saved</Link>
+                    {ifAuth && <button className="tab tab-0" onClick={Auth.logout}>Logout</button>}
                 </nav>
                 <div className="drawer-overlay"
                     onClick={props.onBackgroundClick}
@@ -42,9 +47,8 @@ const Drawer = (props) => (
             </div>
         )
     }
-
     </Transition>
-
-);
+    );
+};
 
 export default Drawer;

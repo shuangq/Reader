@@ -5,12 +5,13 @@
 
 var http = require('http');
 var express = require('express');
-var session = require('express-session');
 var path = require('path');
 var bodyParser = require('body-parser');
 var dbSession = require('../../src/server/dbSession.js');
 var he = require('he');
 var bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
+var secret = require('../../spec/secret.config.js').secret;
 
 var Server = function (port) {
     var app = express();
@@ -19,13 +20,6 @@ var Server = function (port) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
         extended: true
-    }));
-
-    // Initializing the session
-    app.use(session({
-        secret: 'somethingsupersecret',
-        resave: false,
-        saveUninitialized: true,
     }));
 
     app.use('/', express.static(path.join(__dirname, '../client/dist')));
@@ -48,23 +42,30 @@ var Server = function (port) {
                 error: 'Authentication failed. Missing email or password.'
             });
         } else {
-            dbSession.fetchOne('SELECT Password FROM User WHERE Email=?',
+            dbSession.fetchRow('SELECT * FROM User WHERE Email=?',
             [req.body.email],
-            function (err, result) {
-                if (!result) {
+            function (err, user) {
+                if (!user) {
                     res.status(401).json({
-                        error: 'Authentication failed.'
+                        error: 'Authentication failed. Email doesn\'t exist.',
                     });
                 } else {
-                    bcrypt.compare(req.body.password, result, function (err, result) {
+                    bcrypt.compare(req.body.password, user.Password, function (err, result) {
                         if (result == true) {
-                            req.session.user = req.body.email;
+                            var payload = {
+                                userId: user.UserId,
+                                email: user.Email,
+                                firstName: user.FirstName,
+                                surName: user.SurName,
+                            };
+                            var token = jwt.sign(payload, secret);
                             res.status(200).json({
-                                message: 'Login success.'
+                                message: 'Login success.',
+                                token: token
                             });
                         } else {
                             res.status(401).json({
-                                error: 'Authentication failed.'
+                                error: 'Authentication failed. Password is not correct.'
                             });
                         }
                     });
@@ -72,27 +73,6 @@ var Server = function (port) {
             });
         }
     });
-
-    // Check if uses is logged in.
-    app.get('/api/login', function (req, res) {
-        res.session.user ? res.status(200).send({
-            loggedIn: true
-        }) : res.status(200).send({
-            loggedIn: false
-        });
-    });
-
-    // Log the user out.
-    app.post('/api/logout', function (req, res) {
-        req.session.destroy(function (err) {
-            if (err) {
-                res.status(500).send('Could not log out');
-            } else {
-                res.status(200).send({});
-            }
-        });
-    });
-
 
     app.get('/api/articles', function (req, res) {
         dbSession.fetchAll('SELECT ArticleId, Title, Author, Date, PosterUrl FROM Article ORDER BY Date', function (err, rows) {

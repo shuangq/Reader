@@ -36,3 +36,22 @@ export function getArticleContent(articleId) {
         };
     });
 }
+
+export function login(email, password, cb) {
+    API.post('login', {
+        email,
+        password,
+    }, {
+        'Content-Type': 'application/json',
+    }).then(res => {
+        if (res.status === 200 && res.data.token) {
+            // set token to localStorage
+            localStorage.setItem('token', res.data.token);
+        }
+        if (cb) cb(res.data);
+    }, (err) => {
+        if (cb) cb(err.response.data);
+    }).catch(err => {
+        console.log(`Login failed: ${err}`);
+    });
+}
