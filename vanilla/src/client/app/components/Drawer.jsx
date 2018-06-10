@@ -25,29 +25,47 @@ const stateMachine = {
 };
 
 const Drawer = (props) => {
-    const ifAuth = Auth.checkIfAuthenticated();
+    const ifAuth = Auth.checkIfAuth();
+    const firstName = ifAuth ? Auth.getUserFirstName() : null;
+
+    const handleLogout = () => {
+        Auth.logout();
+    };
+
+    const CustomLink = ({to, className, children}) => {
+        return <Link to={to} className={className} onClick={props.onBackgroundClick}>{children}</Link>;
+    };
 
     return (
-    <Transition in={props.inProp} timeout={{enter: 0, exit: 500}} mountOnEnter unmountOnExit>
-    {
-        (state) => (
-            <div className="drawer-wrapper">
-                <nav className="drawer" style={{
-                    ...stateMachine['hide'],
-                    ...stateMachine[state]
-                }}>
-                    {!ifAuth && <Link to="/login" className="tab tab-0">Login</Link>}
-                    <Link to="/" className="tab tab-1">Home</Link>
-                    <Link to="/saved" className="tab tab-2">Saved</Link>
-                    {ifAuth && <button className="tab tab-0" onClick={Auth.logout}>Logout</button>}
-                </nav>
-                <div className="drawer-overlay"
-                    onClick={props.onBackgroundClick}
-                ></div>
-            </div>
-        )
-    }
-    </Transition>
+        <Transition in={props.inProp} timeout={{ enter: 0, exit: 500 }} mountOnEnter unmountOnExit>
+            {
+                (state) => (
+                    <div className="drawer-wrapper">
+                        <nav className="drawer" style={{
+                            ...stateMachine['hide'],
+                            ...stateMachine[state]
+                        }}>
+                            {
+                                ifAuth ? (
+                                    <p className="hello-msg">
+                                        👋🏻<br />
+                                        Hello, <span>{firstName}!</span>
+                                    </p>
+                                ) :
+                                    (<CustomLink to="/login" className="tab tab-0">Login</CustomLink>)
+                            }
+                            <CustomLink to="/" className="tab tab-1">Home</CustomLink>
+                            <CustomLink to="/saved" className="tab tab-2">Saved</CustomLink>
+                            {ifAuth && <CustomLink className="tab tab-0" to="/logout">Logout</CustomLink>
+                            }
+                        </nav>
+                        <div className="drawer-overlay"
+                            onClick={props.onBackgroundClick}
+                        ></div>
+                    </div>
+                )
+            }
+        </Transition>
     );
 };
 

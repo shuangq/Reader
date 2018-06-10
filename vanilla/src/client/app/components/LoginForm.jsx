@@ -40,12 +40,14 @@ class LoginForm extends React.Component {
         }
 
         return (
-            <form className="login-form" onSubmit={this.handleSubmit} >
-                <input name="email" type="text" onChange={this.handleChange} placeholder="email" />
-                <input name="password" type="password" onChange={this.handleChange} placeholder="password" />
-                <p className="err-msg">{this.state.errorMsg}</p>
-                <input type="submit" className="btn-login" value="Login" />
-            </form>
+            <div className="login">
+                <form className="login-form" onSubmit={this.handleSubmit} >
+                    <input name="email" type="text" onChange={this.handleChange} placeholder="email" />
+                    <input name="password" type="password" onChange={this.handleChange} placeholder="password" />
+                    <p className="err-msg">{this.state.errorMsg}</p>
+                    <input type="submit" className="btn-login" value="Login" />
+                </form>
+            </div>
         );
     }
 }

@@ -9,7 +9,9 @@ const List = (props) => props.items.map(item => (
         author={item.author}
         date={item.date}
         imgUrl={item.imgUrl}
+        ifSaved={item.ifSaved}
         onItemClick={props.onListItemClick}
+        onSaveClick={props.onSaveClick}
     />
 ));
 

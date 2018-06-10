@@ -57,13 +57,32 @@ exports.up = function (db, callback) {
       AvatarUrl: {
         type: 'string'
       }
-    })
+    }),
+
+    db.createTable.bind(db, 'UserSavedArticle', {
+      UserId: {
+        type: 'int',
+        primaryKey: true,
+        notNull: true
+      },
+      ArticleId: {
+        type: 'int',
+        primaryKey: true,
+        notNull: true,
+      },
+      SavedDate: {
+        type: 'string',
+        notNull: true,
+      }
+    }),
   ], callback);
+
 };
 
 exports.down = function (db, callback) {
   async.series([
     db.dropTable.bind(db, 'Article'),
-    db.dropTable.bind(db, 'User')
+    db.dropTable.bind(db, 'User'),
+    db.dropTable.bind(db, 'UserSavedArticle'),
   ], callback);
 };

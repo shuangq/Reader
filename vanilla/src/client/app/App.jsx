@@ -1,5 +1,7 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, Redirect } from 'react-router-dom';
+import { logout } from './utils/auth';
+import PrivateRoute from './components/PrivateRoute';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Saved from './components/Saved';
@@ -9,15 +11,17 @@ import LoginForm from './components/LoginForm';
 class App extends React.Component {
   render() {
     return (
-      <div className="app">
+      <React.Fragment>
         <Navbar />
-        {/* <div className="container"> */}
-          <Route exact path="/" component={Home} />
-          <Route path="/saved" component={Saved} />
-          <Route path="/article/:aid" component={Article} />
-          <Route path="/login" component={LoginForm} />
-        {/* </div> */}
-      </div>
+        <Route exact path="/" component={Home} />
+        <PrivateRoute path="/saved" component={Saved} />
+        <Route path="/article/:aid" component={Article} />
+        <Route path="/login" component={LoginForm} />
+        <Route path="/logout" render={props => {
+          logout();
+          return <Redirect to="/" />;
+        }} />
+      </React.Fragment>
     );
   }
 }
