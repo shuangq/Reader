@@ -1,0 +1,38 @@
+@import "../variables.scss";
+
+.article {
+    .header {
+        padding-top: .1em;
+    }
+    blockquote {
+        font-size: 1em;
+    }
+
+    .container{
+        @include for-size(tablet-landscape-up) {
+            max-width: 65%;
+        }
+        @include for-size(big-desktop-up) {
+            max-width: 50%;
+        }
+    }
+}
+
+.inline-media {
+    .responsive-image-wrapper {
+        display: block;
+        width: 100%;
+        font-size: 0;
+        img {
+            width: 100%;
+        }
+    }
+    .caption-wrapper {
+        padding: 1em;
+        background-color: $col-bg;
+        p {
+            font-size: 14px;
+            margin: 0;
+        }
+    }
+}

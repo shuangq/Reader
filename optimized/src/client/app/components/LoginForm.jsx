@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { login } from '../api/api';
+import './LoginForm.scss';
 
 class LoginForm extends React.Component {
     constructor(props) {

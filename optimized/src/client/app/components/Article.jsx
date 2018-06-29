@@ -1,10 +1,7 @@
 import React from 'react';
 import { getArticleContent } from '../api/api';
 import he from 'he';
-
-const Title = ({ title }) => (
-    <h1 className="title">{title}</h1>
-);
+import './Article.scss';
 
 class Article extends React.Component {
     constructor(props) {
