@@ -33,12 +33,12 @@ var Server = function (port) {
 
     // Serve static files
     // @TODO: Uncomment in production
-    // app.use('/', express.static(path.join(__dirname, '../client/dist')));
+    app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
-    // app.get('/', function (req, res) {
-    //     res.set('Content-Type', 'text/html');
-    //     res.sendFile(__dirname + '/index.html');
-    // });
+    app.get('/', function (req, res) {
+        res.set('Content-Type', 'text/html');
+        res.sendFile(__dirname + '/index.html');
+    });
 
     /**
      * Routes

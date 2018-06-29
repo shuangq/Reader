@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const DashboardPlugin = require('webpack-dashboard/plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
@@ -8,7 +10,7 @@ module.exports = {
     entry: ['babel-polyfill', './src/client/app/index.js'],
     output: {
         path: path.resolve(__dirname, './src/client/dist'),
-        publicPath: '/'
+        publicPath: '/',
     },
     watch: true,
     module: {
@@ -62,6 +64,8 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: devMode ? '[name].css' : '[name].[hash].css',
             chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
-        })
+        }),
+        new DashboardPlugin(),
+        new BundleAnalyzerPlugin(),
     ]
 };
