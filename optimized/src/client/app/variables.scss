@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald|Source+Sans+Pro|Lato:300,400');
+/* variables */
+
+//breakpoints
+$phone-upper-boundary: 600px;
+$tablet-portrait-upper-boundary: 900px;
+$tablet-landscape-upper-boundary: 1200px;
+$desktop-upper-boundary: 1800px;
+// font family
+$font-text: 'Source Sans Pro',
+sans-serif;
+$font-title: 'Oswald',
+sans-serif;
+$font-nav: 'Lato',
+sans-serif;
+$font-size-lg: 1.6rem;
+// color schemes
+$col-bg: #F1F3F4;
+$col-text: #414547;
+$col-primary: #1B7793;
+$col-accent-1: #06908F;
+$col-accent-2: #72A98F;
+$col-accent-3: #8BBF9B;
+$col-important: #dd3737;
+$nav-height: 4.5rem;
+
+/* functions */
+// unitless function to convert px to em
+@function em($pixels,
+$base: 16) {
+    @if unitless($pixels) {
+        $pixels: $pixels * 1px;
+    }
+    @if unitless($base) {
+        $base: $base * 1px;
+    }
+    @return $pixels / $base * 1em;
+}
+
+/* mixins */
+// breakpoint mixin
+@mixin for-size($range) {
+    @if $range==phone-only {
+        @media (max-width: #{$phone-upper-boundary - 1}) {
+            @content;
+        }
+    }
+    @else if $range==tablet-portrait-up {
+        @media (min-width: $phone-upper-boundary) {
+            @content;
+        }
+    }
+    @else if $range==tablet-landscape-up {
+        @media (min-width: $tablet-portrait-upper-boundary) {
+            @content;
+        }
+    }
+    @else if $range==desktop-up {
+        @media (min-width: $tablet-landscape-upper-boundary) {
+            @content;
+        }
+    }
+    @else if $range==big-desktop-up {
+        @media (min-width: $desktop-upper-boundary) {
+            @content;
+        }
+    }
+}

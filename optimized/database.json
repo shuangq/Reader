@@ -1,0 +1,18 @@
+{
+    "_describtion": "database configuration for different environments",
+    "test": {
+        "driver": "sqlite3",
+        "filename": "/var/tmp/reader.test.sqlite"
+    },
+    "dev": {
+        "driver": "sqlite3",
+        "filename": "/var/tmp/reader.dev.sqlite"
+    },
+    "production": {
+        "driver": "mysql",
+        "host": "localhost",
+        "user": "root",
+        "password": "root",
+        "database": "reader"
+    }
+}
