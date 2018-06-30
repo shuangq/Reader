@@ -12,9 +12,9 @@ class App extends React.Component {
       <React.Fragment>
         <Navbar />
         <Route exact path="/" component={Home} />
-        <PrivateRoute path="/saved" component={Loadable({loader: () => import(/*webpackChunkName: 'saved'*/'./components/Saved')})}/>
-        <Route path="/article/:aid" component={Loadable({loader: () => import(/*webpackChunkName: 'article'*/'./components/Article')})} />
-        <Route path="/login" component={Loadable({loader: () => import(/*webpackChunkName: 'login'*/'./components/LoginForm')})} />
+        <PrivateRoute path="/saved" component={Loadable({loader: () => import(/* webpackChunkName: 'saved', webpackPrefetch: true */'./components/Saved')})}/>
+        <Route path="/article/:aid" component={Loadable({loader: () => import(/* webpackChunkName: 'article', webpackPrefetch: true */'./components/Article')})} />
+        <Route path="/login" component={Loadable({loader: () => import(/* webpackChunkName: 'login ', webpackPrefetch: true */'./components/LoginForm')})} />
         <Route path="/logout" render={props => {
           logout();
           return <Redirect to="/" />;

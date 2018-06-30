@@ -7,18 +7,37 @@ const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
     mode: 'development',
-    entry: ['babel-polyfill', './src/client/app/index.js'],
+    entry: ['babel-polyfill','./src/client/app/index.js'],
     output: {
-        filename: '[name].bundle.js',
-        chunkFilename: '[name].bundle.js',
+        filename: '[name].[hash].bundle.js',
+        chunkFilename: '[name].[hash].bundle.js',
         path: path.resolve(__dirname, './src/client/dist'),
         publicPath: '/',
     },
+    optimization: {
+		splitChunks: {
+			cacheGroups: {
+				commons: {
+					chunks: 'initial',
+                    minChunks: 2,
+                    maxInitialRequests: 5, // The default limit is too small to showcase the effect
+					minSize: 0 // This is example is too small to create commons chunks
+				},
+				vendor: {
+					test: /node_modules/,
+					chunks: 'initial',
+					name: 'vendor',
+					priority: 10,
+					enforce: true
+				}
+			}
+		}
+	},
     watch: true,
     module: {
         rules: [{
                 test: /\.jsx?$/,
-                exclude: /node_modules/,
+                exclude: path.resolve(__dirname, 'node_modules'),
                 loader: "babel-loader"
             },
             {
