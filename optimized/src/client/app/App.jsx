@@ -5,6 +5,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Loadable from './components/Loadable';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
+import './App.scss';
 
 class App extends React.Component {
   render() {

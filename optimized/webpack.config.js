@@ -29,7 +29,13 @@ module.exports = {
 					name: 'vendor',
 					priority: 10,
 					enforce: true
-				}
+                },
+                styles: {
+                    name:'styles',
+                    test: /\.css$/,
+                    chunks: 'all',
+                    enforce: true,
+                }
 			}
 		}
 	},
@@ -84,7 +90,7 @@ module.exports = {
         new HtmlWebpackPlugin({template: 'src/client/index.html'}),
         new MiniCssExtractPlugin({
             filename: devMode ? '[name].css' : '[name].[hash].css',
-            chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
+            chunkFilename: devMode ? '[name].css' : '[name].[hash].css',
         }),
         new DashboardPlugin(),
         new BundleAnalyzerPlugin(),

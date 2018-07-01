@@ -1,11 +1,12 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DashboardPlugin = require('webpack-dashboard/plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const devMode = process.env.NODE_ENV !== 'production';
 
-module.exports = {
+module.exports = (env, argv) => ({
     mode: 'development',
     entry: ['babel-polyfill', './src/client/app/index.js'],
     output: {
@@ -67,5 +68,6 @@ module.exports = {
         }),
         new DashboardPlugin(),
         new BundleAnalyzerPlugin(),
+        new webpack.DefinePlugin({})
     ]
-};
+});

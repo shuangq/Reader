@@ -11,7 +11,7 @@
     "test": " rm /var/tmp/reader.test.sqlite && ./node_modules/.bin/db-migrate up --env test && READER_ENV=test ./node_modules/.bin/jasmine-node --verbose --captureExceptions ./spec",
     "start-client": "webpack-dashboard -- webpack-dev-server --hot --host 0.0.0.0 --port 5000",
     "start-server": "DEBUG=* READER_ENV=dev webpack-dashboard -- node src/server/index.js",
-    "build": "webpack --mode production"
+    "build": "rm -r ./src/client/dist && NODE_ENV=production webpack -p"
   },
   "author": "Shuang Qiu",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "async": "^2.6.1",
     "axios": "^0.18.0",
     "bcrypt": "^2.0.1",
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.18.",
     "db-migrate": "^0.9.26",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.2.2",

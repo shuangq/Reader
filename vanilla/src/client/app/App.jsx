@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Saved from './components/Saved';
 import Article from './components/Article';
 import LoginForm from './components/LoginForm';
+import './App.scss';
 
 class App extends React.Component {
   render() {
