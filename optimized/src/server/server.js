@@ -3,7 +3,9 @@
  */
 'use strict';
 
-var http = require('http');
+var spdy = require('spdy');
+var fs = require('fs');
+var async = require('async');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -11,7 +13,17 @@ var dbSession = require('../../src/server/dbSession.js');
 var he = require('he');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
-var secret = require('../../spec/secret.config.js').secret;
+var secret = require('../../spec/secret.config.js').secret; // secret for hashing password
+
+// Get key and certificate for https
+var options = {
+    key: fs.readFileSync(__dirname + '/server.key'),
+    cert: fs.readFileSync(__dirname + '/server.crt'),
+    ca: fs.readFileSync(__dirname + '/server.csr'),
+};
+
+// Static files path
+var publicPath = path.join(__dirname, '../client/dist');
 
 var Server = function (port) {
     var app = express();
@@ -32,12 +44,46 @@ var Server = function (port) {
     });
 
     // Serve static files
-    // @TODO: Uncomment in production
-    app.use('/', express.static(path.join(__dirname, '../client/dist')));
+    app.use(express.static(publicPath));
 
     app.get('/', function (req, res) {
-        res.set('Content-Type', 'text/html');
-        res.sendFile(__dirname + '/index.html');
+        async.waterfall([
+            function(callback) {
+                fs.readFile(publicPath + '/home.html', callback);
+            },
+            function(file, callback){
+               fs.readFile(publicPath + '/main.959466ba1bd1788d0f48.bundle.js', function(err, file2) {
+                   callback(err, [file, file2]);
+                });
+            }
+        ], function(err, files) {
+            console.log(files);
+            
+            // Does the browser support push?
+            if (res.push) {
+                // The JS file
+                res.push('/main.959466ba1bd1788d0f48.bundle.js', {
+                    request: {
+                        'accept': '**/*'
+                    },
+                    response: {
+                        'content-type': 'application/javascript'
+                    }
+                }, function(err, stream) {
+                    if(err) return;
+                    stream.on('error', err => {
+                        console.log(err);
+                    });
+    
+                    stream.end(files[1]);
+                });
+            }
+            res.writeHead(200);
+            res.end(files[0]);
+
+        });
+        // res.set('Content-Type', 'text/html');
+        // res.sendFile(publicPath + '/home.html');
     });
 
     /**
@@ -195,7 +241,7 @@ var Server = function (port) {
             'ArticleId': parseInt(req.body.articleId, 10),
             'SavedDate': date,
         };
-        
+
         dbSession.insert('UserSavedArticle', data, function (err) {
             if (err) {
                 res.status(500).json({
@@ -238,7 +284,7 @@ var Server = function (port) {
         res.redirect('/');
     });
 
-    return http.createServer(app);
+    return spdy.createServer(options, app);
 };
 
 module.exports = {
