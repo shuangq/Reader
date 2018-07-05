@@ -46,72 +46,8 @@ var Server = function () {
     app.use(express.static(publicPath));
 
     app.get('/', function (req, res) {
-        Promise.all([
-               fs.readFile(publicPath + '/main.2abeda3a203d32d99d73.bundle.js'),
-            //    fs.readFile(publicPath + '/vendor.2abeda3a203d32d99d73.bundle.js'),
-               fs.readFile(publicPath + '/main.2abeda3a203d32d99d73.css'),
-        ]).then(function(files) {
-
-            // Does the browser support push?
-            if (res.push) {
-                // Push main.js
-                res.push('/main.2abeda3a203d32d99d73.bundle.js', {
-                    method: 'GET', // optional
-                    request: {
-                        accept: '*/*'
-                    },
-                    response: {
-                        'content-type': 'application/javascript'
-                    }
-                }, function(err, stream) {
-                    if(err) return;
-                    stream.on('error', err => {
-                        console.log(err);
-                    });
-    
-                    stream.end(files[0]);
-                });
-
-                // // Push vendor.js
-                // res.push('/vendor.2abeda3a203d32d99d73.bundle.js', {
-                //     method: 'GET', // optional
-                //     request: {
-                //         accept: '*/*'
-                //     },
-                //     response: {
-                //         'content-type': 'application/javascript'
-                //     }
-                // }, function(err, stream) {
-                //     if(err) return;
-                //     stream.on('error', err => {
-                //         console.log(err);
-                //     });
-    
-                //     stream.end(files[1]);
-                // });
-
-                // Push main.css
-                res.push('/main.2abeda3a203d32d99d73.css', {
-                    method: 'GET', // optional
-                    request: {
-                        accept: '*/*'
-                    },
-                    response: {
-                        'content-type': 'text/css'
-                    }
-                }, function(err, stream) {
-                    if(err) return;
-                    stream.on('error', err => {
-                        console.log(err);
-                    });
-    
-                    stream.end(files[1]);
-                });
-            }
-
-            res.status(200).sendFile(publicPath + '/home.html');
-        });
-
+        res.setHeader('Content-Type', 'text/html')
+        res.status(200).sendFile(publicPath + '/home.html');
     });
 
     /**
