@@ -1,9 +1,10 @@
 /**
- * Provide a Server function that sets up a Percolator server object for us
+ * Provide a Server function that sets up a SPDY server object for us
  */
 'use strict';
 
-var http = require('http');
+var fs = require('fs');
+var spdy = require('spdy');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -13,7 +14,17 @@ var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 var secret = require('../../spec/secret.config.js').secret;
 
-var Server = function (port) {
+// Get key and certificate for https
+var options = {
+    key: fs.readFileSync(path.join(__dirname, 'key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, 'cert.pem')),
+    spdy: {
+        protocols: ['h2', 'http/1.1', 'http/1.0']
+    }
+};
+
+
+var Server = function () {
     var app = express();
 
     // Accept both JSON and url encoded values
@@ -238,7 +249,7 @@ var Server = function (port) {
         res.redirect('/');
     });
 
-    return http.createServer(app);
+    return spdy.createServer(options, app);
 };
 
 module.exports = {

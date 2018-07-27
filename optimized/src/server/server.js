@@ -5,7 +5,6 @@
 
 var spdy = require('spdy');
 var fs = require('mz/fs');
-var async = require('async');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -19,6 +18,7 @@ var secret = require('../../spec/secret.config.js').secret; // secret for hashin
 var options = {
     key: fs.readFileSync(__dirname + '/localhost.key'),
     cert: fs.readFileSync(__dirname + '/localhost.crt'),
+    protocols: ['h2', 'spdy', 'http/1.1'],
 };
 
 // Static files path
@@ -43,12 +43,14 @@ var Server = function () {
     });
 
     // Serve static files
-    app.use(express.static(publicPath));
+    app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
-    app.get('/', function (req, res) {
-        res.setHeader('Content-Type', 'text/html')
-        res.status(200).sendFile(publicPath + '/home.html');
-    });
+    // app.use(express.static(publicPath));
+
+    // app.get('/', function (req, res) {
+    //     res.setHeader('Content-Type', 'text/html')
+    //     res.status(200).sendFile(publicPath + '/home.html');
+    // });
 
     /**
      * Routes

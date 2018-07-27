@@ -4,7 +4,7 @@ const articles = [{
     "Title": "Dante and The Divine Comedy: He took us on a tour of Hell",
     "Author": "Christian Blauvelt",
     "Date": "5 June 2018",
-    "PosterUrl": "http://ichef.bbci.co.uk/wwfeatures/wm/live/1280_640/images/live/p0/69/40/p06940z8.jpg",
+    "PosterUrl": "./images/p06940z8.jpg",
     "Body": `    <p>“All hope abandon ye who enter here.”</p>
     <p>That’s the inscription on the gate to Hell in one of the first English translations of The Divine Comedy, by Henry Francis
         Cary, in 1814. You probably know it as the less tongue-twisting “Abandon hope all ye who enter here,” which is the
@@ -299,7 +299,7 @@ const articles = [{
     'Title': 'The Book of Songs: Poems that helped shape Chinese thought',
     'Author': 'Martin Kern',
     'Date': '30 May 2018',
-    'PosterUrl': 'http://ichef.bbci.co.uk/wwfeatures/wm/live/976_549/images/live/p0/68/pw/p068pw87.jpg',
+    'PosterUrl': './images/p068pw87.jpg',
     'Body': `    <p>Since antiquity, no other text has enjoyed a presence quite like The Book of Songs –
     <a href="https://books.google.co.uk/books/about/The_Book_of_Songs.html?id=5mTXnQEACAAJ&amp;redir_esc=y">in one critic’s words</a>, it is “the classic of the human heart and the human mind.” It is the first poetic anthology
     of China; Confucius himself is said to have compiled the “three hundred songs”—another early name for the text –
@@ -475,7 +475,7 @@ const articles = [{
     'Title': 'How Invisible Man eerily foreshadowed the events of today',
     'Author': 'Kenneth M Warren',
     'Date': '6 June 2018',
-    'PosterUrl': 'http://ichef.bbci.co.uk/wwfeatures/wm/live/624_351/images/live/p0/69/b2/p069b24x.jpg',
+    'PosterUrl': './images/p069b24x.jpg',
     'Body': `<p>Although hardly unique in this regard, Ralph Ellison’s Invisible Man shows how affirming the capacity of a work to speak
         to all times (or, at the very least, to our own time) might stand at odds with understanding that work in its own
         moment.&nbsp;</p>
@@ -698,7 +698,7 @@ const articles = [{
     'Title': 'Every story in the world has one of these six basic plots',
     'Author': 'Miriam Quick',
     'Date': '25 May 2018',
-    'PosterUrl': 'http://ichef.bbci.co.uk/wwfeatures/wm/live/976_549/images/live/p0/68/67/p06867nr.jpg',
+    'PosterUrl': './images/p06867nr.jpg',
     'Body': `
     <p>“My prettiest contribution to the culture” was how the novelist Kurt Vonnegut described his old master’s thesis in anthropology,
         “which was rejected because it was so simple and looked like too much fun”. The thesis sank without a trace, but
@@ -960,7 +960,7 @@ const articles = [{
     'Title': 'How One Hundred Years of Solitude redefined Latin America',
     'Author': 'Felipe Restrepo Pombo',
     'Date': '28 May 2018',
-    'PosterUrl': 'http://ichef.bbci.co.uk/wwfeatures/wm/live/1280_640/images/live/p0/68/0c/p0680ctg.jpg',
+    'PosterUrl': './images/p0680ctg.jpg',
     'Body': `<p>Before One Hundred Years of Solitude, Latin America bore certain similarities to the imaginary place described in the first
     paragraph of the novel: “The world was so recent that many things lacked names, and in order to indicate them it was
     necessary to point”. The continent, obviously, wasn’t a new place when Gabriel García Márquez wrote his acclaimed novel:
@@ -1145,7 +1145,7 @@ const articles = [{
     'Title': 'Film review: Ocean’s 8 isn’t good but is it fun?',
     'Author': 'Caryn James',
     'Date': '8 June 2018',
-    'PosterUrl': 'http://ichef.bbci.co.uk/wwfeatures/wm/live/1600_640/images/live/p0/69/9w/p0699wbl.jpg',
+    'PosterUrl': './images/p0699wbl.jpg',
     'Body': `<p>Why has a man directed Ocean’s 8? That’s the obvious question about the all-female extension of the Ocean’s franchise, with
     Sandra Bullock as Debbie Ocean, sister of George Clooney’s Danny. Heists run in their family, as Debbie masterminds a
     girls’ group of thieves trying to purloin some jewels during the Met Gala.</p>
@@ -1206,7 +1206,7 @@ const articles = [{
     'Title': 'Sex and the City: A global revolution',
     'Author': 'Jennifer Keishin Armstrong',
     'Date': '5 June 2018',
-    'PosterUrl': 'http://ichef.bbci.co.uk/wwfeatures/wm/live/1600_640/images/live/p0/69/7d/p0697dts.jpg',
+    'PosterUrl': './images/p0697dts.jpg',
     'Body': `    <p>Japanese voice-over actress Yūko Nagashima was a little worried when she first took on the job of providing Carrie Bradshaw’s
     voice in dubbed versions of the US television phenomenon Sex and the City. Sex, after all, was not something Japanese
     women discussed openly, nonchalantly, like Carrie and her friends do at any given brunch. “I wondered how it would
@@ -1442,7 +1442,7 @@ const articles = [{
     'Title': 'Why Some Like It Hot is the greatest comedy ever made',
     'Author': 'Nicholas Barber',
     'Date': '22 August 2017',
-    'PosterUrl': 'http://ichef.bbci.co.uk/wwfeatures/wm/live/1600_640/images/live/p0/5c/ly/p05cly0x.jpg',
+    'PosterUrl': './images/p05cly0x.jpg',
     'Body': `    <p>In 1958, Tony Curtis was at a Hollywood party when Billy Wilder took him aside. Wilder was planning a film about two
     musicians who dress up as women to join an all-girl band, and he asked Curtis to play one of the musicians. Curtis
     was overjoyed, but he wasn’t sure why such an illustrious writer-director would want to use him. “You’re the handsomest
