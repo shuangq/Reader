@@ -10,7 +10,7 @@ const ListItem = (props) => {
         <div className="item">
             <div className="item-clickable-area" onClick={() => {props.onItemClick(props.id)}}>
             <div className="item-header">
-                <img src={props.imgUrl} alt={props.title} />
+                <img src={`/images/${props.imgUrl}`} alt={props.title} />
             </div>
             <div className="item-body">
                 <h2 className="title" title={props.title}>{props.title}</h2>

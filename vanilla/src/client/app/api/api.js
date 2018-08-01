@@ -4,7 +4,7 @@ import {
 } from '../utils/auth';
 
 const API = axios.create({
-    baseURL: 'http://localhost:3000/api/',
+    baseURL: 'https://localhost:3000/api/',
 });
 
 export function login(email, password, cb) {

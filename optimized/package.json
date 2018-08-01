@@ -9,6 +9,7 @@
     "dbmigrate-dev": "./node_modules/.bin/db-migrate up --env dev",
     "spec-dev": "READER_ENV=dev ./node_modules/.bin/jasmine-node --verbose --captureExceptions ./spec",
     "test": " rm /var/tmp/reader.test.sqlite && ./node_modules/.bin/db-migrate up --env test && READER_ENV=test ./node_modules/.bin/jasmine-node --verbose --captureExceptions ./spec",
+    "gen-key": "cd ./src/server && openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -config req.cnf",
     "start-client": "webpack-dashboard -- webpack-dev-server --hot --host 0.0.0.0 --port 5000",
     "start-server": "DEBUG=express:* READER_ENV=dev node src/server/index.js",
     "build": "rm -r ./src/client/dist && NODE_ENV=production webpack -p"

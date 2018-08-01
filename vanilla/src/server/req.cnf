@@ -1,0 +1,16 @@
+distinguished_name = req_distinguished_name
+x509_extensions = v3_req
+prompt = no
+[req_distinguished_name]
+C = FI
+ST = Southern Finland
+L = Espoo
+O = Aalto University
+OU = School of Science
+CN = localhost
+[v3_req]
+keyUsage = critical, digitalSignature, keyAgreement
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = localhost

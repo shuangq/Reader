@@ -4,8 +4,7 @@
 'use strict';
 
 var spdy = require('spdy');
-var fs = require('mz/fs');
-var async = require('async');
+var fs = require('fs');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -17,8 +16,11 @@ var secret = require('../../spec/secret.config.js').secret; // secret for hashin
 
 // Get key and certificate for https
 var options = {
-    key: fs.readFileSync(__dirname + '/localhost.key'),
-    cert: fs.readFileSync(__dirname + '/localhost.crt'),
+    key: fs.readFileSync(__dirname + '/key.pem'),
+    cert: fs.readFileSync(__dirname + '/cert.pem'),
+    spdy: {
+        protocols: ['h2']
+    }
 };
 
 // Static files path
@@ -26,6 +28,13 @@ var publicPath = path.join(__dirname, '../client/dist');
 
 var Server = function () {
     var app = express();
+
+    // Read push files beforehand
+    var pushedMainJs = fs.readFileSync(publicPath + '/main.0425d88698ad5d9eff97.bundle.js');
+    //    fs.readFile(publicPath + '/vendor.2abeda3a203d32d99d73.bundle.js'),
+    var pushedMainCss = fs.readFileSync(publicPath + '/main.0425d88698ad5d9eff97.css');
+
+
 
     // Accept both JSON and url encoded values
     app.use(bodyParser.json());
@@ -46,72 +55,46 @@ var Server = function () {
     app.use(express.static(publicPath));
 
     app.get('/', function (req, res) {
-        Promise.all([
-               fs.readFile(publicPath + '/main.2abeda3a203d32d99d73.bundle.js'),
-            //    fs.readFile(publicPath + '/vendor.2abeda3a203d32d99d73.bundle.js'),
-               fs.readFile(publicPath + '/main.2abeda3a203d32d99d73.css'),
-        ]).then(function(files) {
-
-            // Does the browser support push?
-            if (res.push) {
-                // Push main.js
-                res.push('/main.2abeda3a203d32d99d73.bundle.js', {
-                    method: 'GET', // optional
-                    request: {
-                        accept: '*/*'
-                    },
-                    response: {
-                        'content-type': 'application/javascript'
-                    }
-                }, function(err, stream) {
-                    if(err) return;
-                    stream.on('error', err => {
-                        console.log(err);
-                    });
-    
-                    stream.end(files[0]);
+        // Does the browser support push?
+        if (res.push) {
+            // Push main.js
+            res.push('/main.0425d88698ad5d9eff97.bundle.js', {
+                method: 'GET', // optional
+                request: {
+                    accept: '*/*'
+                },
+                response: {
+                    'content-type': 'application/javascript'
+                }
+            }, function (err, stream) {
+                if (err) return;
+                stream.on('error', err => {
+                    console.log(err);
                 });
 
-                // // Push vendor.js
-                // res.push('/vendor.2abeda3a203d32d99d73.bundle.js', {
-                //     method: 'GET', // optional
-                //     request: {
-                //         accept: '*/*'
-                //     },
-                //     response: {
-                //         'content-type': 'application/javascript'
-                //     }
-                // }, function(err, stream) {
-                //     if(err) return;
-                //     stream.on('error', err => {
-                //         console.log(err);
-                //     });
-    
-                //     stream.end(files[1]);
-                // });
+                stream.end(pushedMainJs);
+            });
 
-                // Push main.css
-                res.push('/main.2abeda3a203d32d99d73.css', {
-                    method: 'GET', // optional
-                    request: {
-                        accept: '*/*'
-                    },
-                    response: {
-                        'content-type': 'text/css'
-                    }
-                }, function(err, stream) {
-                    if(err) return;
-                    stream.on('error', err => {
-                        console.log(err);
-                    });
-    
-                    stream.end(files[1]);
+            // Push main.css
+            res.push('/main.0425d88698ad5d9eff97.css', {
+                method: 'GET', // optional
+                request: {
+                    accept: '*/*'
+                },
+                response: {
+                    'content-type': 'text/css'
+                }
+            }, function (err, stream) {
+                if (err) return;
+                stream.on('error', err => {
+                    console.log(err);
                 });
-            }
 
-            res.status(200).sendFile(publicPath + '/home.html');
-        });
+                stream.end(pushedMainCss);
+            });
+        }
 
+        res.status(200).sendFile(publicPath + '/home.html');
     });
 
     /**
@@ -308,9 +291,9 @@ var Server = function () {
     });
 
     // redirect unmatch route to homepage
-    // app.get('*', function (req, res) {
-    //     res.redirect('/');
-    // });
+    app.get('*', function (req, res) {
+        res.redirect('/');
+    });
 
     return spdy.createServer(options, app);
 };
