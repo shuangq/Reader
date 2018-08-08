@@ -3,7 +3,8 @@
  */
 'use strict';
 
-var http = require('http');
+var spdy = require('spdy');
+var fs = require('mz/fs');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -11,9 +12,19 @@ var dbSession = require('../../src/server/dbSession.js');
 var he = require('he');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
-var secret = require('../../spec/secret.config.js').secret;
+var secret = require('../../spec/secret.config.js').secret; // secret for hashing password
 
-var Server = function (port) {
+// Get key and certificate for https
+var options = {
+    key: fs.readFileSync(__dirname + '/localhost.key'),
+    cert: fs.readFileSync(__dirname + '/localhost.crt'),
+    protocols: ['h2', 'spdy', 'http/1.1'],
+};
+
+// Static files path
+var publicPath = path.join(__dirname, '../client/dist');
+
+var Server = function () {
     var app = express();
 
     // Accept both JSON and url encoded values
@@ -32,13 +43,14 @@ var Server = function (port) {
     });
 
     // Serve static files
-    // @TODO: Uncomment in production
     app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
-    app.get('/', function (req, res) {
-        res.set('Content-Type', 'text/html');
-        res.sendFile(__dirname + '/index.html');
-    });
+    // app.use(express.static(publicPath));
+
+    // app.get('/', function (req, res) {
+    //     res.setHeader('Content-Type', 'text/html')
+    //     res.status(200).sendFile(publicPath + '/home.html');
+    // });
 
     /**
      * Routes
@@ -195,7 +207,7 @@ var Server = function (port) {
             'ArticleId': parseInt(req.body.articleId, 10),
             'SavedDate': date,
         };
-        
+
         dbSession.insert('UserSavedArticle', data, function (err) {
             if (err) {
                 res.status(500).json({
@@ -234,11 +246,11 @@ var Server = function (port) {
     });
 
     // redirect unmatch route to homepage
-    app.get('*', function (req, res) {
-        res.redirect('/');
-    });
+    // app.get('*', function (req, res) {
+    //     res.redirect('/');
+    // });
 
-    return http.createServer(app);
+    return spdy.createServer(options, app);
 };
 
 module.exports = {

@@ -44,7 +44,7 @@ var Server = function () {
 
     app.get('/', function (req, res) {
         res.set('Content-Type', 'text/html');
-        res.sendFile(__dirname + '/home.html');
+        res.sendFile(path.join(__dirname, '../client/dist') + '/home.html');
     });
 
     app.use('/', router);

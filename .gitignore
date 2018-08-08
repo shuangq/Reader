@@ -13,3 +13,8 @@
 
 # Build files
 dist/
+
+# Key & Certificate
+*/*.crt
+*/*.csr
+*/*.key
