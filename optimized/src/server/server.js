@@ -16,8 +16,8 @@ var secret = require('../../spec/secret.config.js').secret; // secret for hashin
 
 // Get key and certificate for https
 var options = {
-    key: fs.readFileSync(__dirname + '/localhost.key'),
-    cert: fs.readFileSync(__dirname + '/localhost.crt'),
+    key: fs.readFileSync(__dirname + '/key.pem'),
+    cert: fs.readFileSync(__dirname + '/cert.pem'),
     protocols: ['h2', 'spdy', 'http/1.1'],
 };
 
@@ -43,14 +43,14 @@ var Server = function () {
     });
 
     // Serve static files
-    app.use('/', express.static(path.join(__dirname, '../client/dist')));
+    app.use(express.static(publicPath));
 
     // app.use(express.static(publicPath));
 
-    // app.get('/', function (req, res) {
-    //     res.setHeader('Content-Type', 'text/html')
-    //     res.status(200).sendFile(publicPath + '/home.html');
-    // });
+    app.get('/', function (req, res) {
+        res.setHeader('Content-Type', 'text/html')
+        res.status(200).sendFile(publicPath + '/home.html');
+    });
 
     /**
      * Routes
