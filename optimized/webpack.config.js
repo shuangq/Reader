@@ -9,8 +9,8 @@ module.exports = {
     mode: 'development',
     entry: ['babel-polyfill','./src/client/app/index.js'],
     output: {
-        filename: '[name].[hash].bundle.js',
-        chunkFilename: '[name].[hash].bundle.js',
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].bundle.js',
         path: path.resolve(__dirname, './src/client/dist'),
         publicPath: '/',
     },
@@ -89,8 +89,8 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({template: 'src/client/index.html', filename: 'home.html'}),
         new MiniCssExtractPlugin({
-            filename: devMode ? '[name].css' : '[name].[hash].css',
-            chunkFilename: devMode ? '[name].css' : '[name].[hash].css',
+            filename: devMode ? '[name].css' : '[name].css',
+            chunkFilename: devMode ? '[name].css' : '[name].css',
         }),
         new DashboardPlugin(),
         new BundleAnalyzerPlugin(),
