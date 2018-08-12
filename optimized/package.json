@@ -12,7 +12,7 @@
     "gen-key": "cd ./src/server && openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -config req.cnf",
     "start-client": "webpack-dashboard -- webpack-dev-server --hot --host 0.0.0.0 --port 5000",
     "start-server": "DEBUG=express:* READER_ENV=dev node src/server/index.js",
-    "build": "rm -r ./src/client/dist && NODE_ENV=production webpack -p"
+    "build": "NODE_ENV=production webpack -p"
   },
   "author": "Shuang Qiu",
   "license": "MIT",
@@ -20,7 +20,7 @@
     "async": "^2.6.1",
     "axios": "^0.18.0",
     "bcrypt": "^2.0.1",
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.18.1",
     "db-migrate": "^0.9.26",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.2.2",

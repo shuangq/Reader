@@ -19,7 +19,7 @@ var options = {
     key: fs.readFileSync(__dirname + '/key.pem'),
     cert: fs.readFileSync(__dirname + '/cert.pem'),
     spdy: {
-        protocols: ['h2']
+        protocols: ['h2', 'spdy']
     }
 };
 
@@ -30,10 +30,11 @@ var Server = function () {
     var app = express();
 
     // Read push files beforehand
-    var pushedMainJs = fs.readFileSync(publicPath + '/main.0425d88698ad5d9eff97.bundle.js');
-    //    fs.readFile(publicPath + '/vendor.2abeda3a203d32d99d73.bundle.js'),
-    var pushedMainCss = fs.readFileSync(publicPath + '/main.0425d88698ad5d9eff97.css');
-
+    var pushedMainJs = fs.readFileSync(publicPath + '/main.7e40774bfe11f55a422d.bundle.js');
+    // var pushedVendorJs = fs.readFileSync(publicPath + '/vendor.7e40774bfe11f55a422d.bundle.js');
+    var pushedMainCss = fs.readFileSync(publicPath + '/main.7e40774bfe11f55a422d.css');
+    console.log('files read');
+    
 
 
     // Accept both JSON and url encoded values
@@ -58,7 +59,7 @@ var Server = function () {
         // Does the browser support push?
         if (res.push) {
             // Push main.js
-            res.push('/main.0425d88698ad5d9eff97.bundle.js', {
+            res.push('/main.7e40774bfe11f55a422d.bundle.js', {
                 method: 'GET', // optional
                 request: {
                     accept: '*/*'
@@ -75,8 +76,26 @@ var Server = function () {
                 stream.end(pushedMainJs);
             });
 
+            // Push vendor.js
+            // res.push('/vendor.7e40774bfe11f55a422d.bundle.js', {
+            //     method: 'GET', // optional
+            //     request: {
+            //         accept: '*/*'
+            //     },
+            //     response: {
+            //         'content-type': 'application/javascript'
+            //     }
+            // }, function (err, stream) {
+            //     if (err) return;
+            //     stream.on('error', err => {
+            //         console.log(err);
+            //     });
+
+            //     stream.end(pushedVendorJs);
+            // });
+
             // Push main.css
-            res.push('/main.0425d88698ad5d9eff97.css', {
+            res.push('/main.7e40774bfe11f55a422d.css', {
                 method: 'GET', // optional
                 request: {
                     accept: '*/*'

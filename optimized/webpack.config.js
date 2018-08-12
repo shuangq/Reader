@@ -87,7 +87,7 @@ module.exports = {
         historyApiFallback: true,
     },
     plugins: [
-        new HtmlWebpackPlugin({template: 'src/client/index.html'}),
+        new HtmlWebpackPlugin({template: 'src/client/index.html', filename: 'home.html'}),
         new MiniCssExtractPlugin({
             filename: devMode ? '[name].css' : '[name].[hash].css',
             chunkFilename: devMode ? '[name].css' : '[name].[hash].css',
