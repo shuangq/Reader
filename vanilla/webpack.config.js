@@ -62,10 +62,10 @@ module.exports = (env, argv) => ({
         historyApiFallback: true,
     },
     plugins: [
-        new HtmlWebpackPlugin({template: 'src/client/index.html'}),
+        new HtmlWebpackPlugin({template: 'src/client/index.html', filename: 'home.html'}),
         new MiniCssExtractPlugin({
-            filename: devMode ? '[name].css' : '[name].[hash].css',
-            chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
+            filename: devMode ? '[name].css' : '[name].css',
+            chunkFilename: devMode ? '[id].css' : '[id].css',
         }),
         new DashboardPlugin(),
         new BundleAnalyzerPlugin(),
