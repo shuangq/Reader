@@ -12,7 +12,7 @@ module.exports = (env, argv) => ({
     entry: ['babel-polyfill', './src/client/app/index.js'],
     output: {
         path: path.resolve(__dirname, './src/client/dist'),
-        publicPath: '/',
+        publicPath: '/static/',
     },
     watch: true,
     module: {

@@ -9,10 +9,10 @@ module.exports = {
     mode: 'development',
     entry: ['babel-polyfill','./src/client/app/index.js'],
     output: {
-        filename: '[name].bundle.js',
-        chunkFilename: '[name].bundle.js',
+        filename: '[name].js',
+        chunkFilename: '[name].js',
         path: path.resolve(__dirname, './src/client/dist'),
-        publicPath: '/',
+        publicPath: '/static/',
     },
     optimization: {
 		splitChunks: {

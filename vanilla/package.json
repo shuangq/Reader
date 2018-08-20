@@ -11,7 +11,7 @@
     "gen-key": "cd ./src/server && openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -config req.cnf",
     "test": " rm /var/tmp/reader.test.sqlite && ./node_modules/.bin/db-migrate up --env test && READER_ENV=test ./node_modules/.bin/jasmine-node --verbose --captureExceptions ./spec",
     "start-client": "webpack-dashboard -- webpack-dev-server --hot --host 0.0.0.0 --port 5000",
-    "start-server": "DEBUG=* READER_ENV=dev webpack-dashboard -- node src/server/index.js",
+    "start-server": "DEBUG=* READER_ENV=dev node src/server/index.js",
     "build": "NODE_ENV=production webpack --mode production "
   },
   "author": "Shuang Qiu",
