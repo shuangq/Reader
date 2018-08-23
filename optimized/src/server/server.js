@@ -19,7 +19,7 @@ var options = {
     key: fs.readFileSync(__dirname + '/key.pem'),
     cert: fs.readFileSync(__dirname + '/cert.pem'),
     spdy: {
-        protocols: ['h2', 'spdy']
+        protocols: ['h2']
     }
 };
 
@@ -30,9 +30,9 @@ var Server = function () {
     var app = express();
 
     // Read push files beforehand
-    var pushedMainJs = fs.readFileSync(publicPath + '/main.7e40774bfe11f55a422d.bundle.js');
-    // var pushedVendorJs = fs.readFileSync(publicPath + '/vendor.7e40774bfe11f55a422d.bundle.js');
-    var pushedMainCss = fs.readFileSync(publicPath + '/main.7e40774bfe11f55a422d.css');
+    var pushedMainJs = fs.readFileSync(publicPath + '/main.js');
+    // var pushedVendorJs = fs.readFileSync(publicPath + '/vendor.js');
+    var pushedMainCss = fs.readFileSync(publicPath + '/main.css');
     console.log('files read');
     
 
@@ -42,7 +42,7 @@ var Server = function () {
     app.use(bodyParser.urlencoded({
         extended: true
     }));
-
+    
     // Allow CORS for development.
     // @TODO: Remove in production    
     app.use(function (req, res, next) {
@@ -51,15 +51,15 @@ var Server = function () {
         res.header('Access-Control-Allow-Methods', '*');
         next();
     });
-
+    
     // Serve static files
-    app.use(express.static(publicPath));
+    app.use('/static', express.static(publicPath));
 
     app.get('/', function (req, res) {
         // Does the browser support push?
         if (res.push) {
             // Push main.js
-            res.push('/main.7e40774bfe11f55a422d.bundle.js', {
+            res.push('/static/main.js', {
                 method: 'GET', // optional
                 request: {
                     accept: '*/*'
@@ -77,7 +77,7 @@ var Server = function () {
             });
 
             // Push vendor.js
-            // res.push('/vendor.7e40774bfe11f55a422d.bundle.js', {
+            // res.push('/static/vendor.js', {
             //     method: 'GET', // optional
             //     request: {
             //         accept: '*/*'
@@ -95,7 +95,7 @@ var Server = function () {
             // });
 
             // Push main.css
-            res.push('/main.7e40774bfe11f55a422d.css', {
+            res.push('/static/main.css', {
                 method: 'GET', // optional
                 request: {
                     accept: '*/*'
